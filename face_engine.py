@@ -6,22 +6,29 @@ import cv2
 import numpy as np
 import torch
 
-# Add RetinaFace repository to Python path
+# Get the main project folder
 ROOT = Path(__file__).resolve().parent
-RETINAFACE_DIR = Path("C:/Users/LENOVO/Desktop/POC-Copy1/TALKFEVER/retinaface-pytorch")
 
+# RetinaFace repository folder
+RETINAFACE_DIR = ROOT / "retinaface-pytorch"
+
+# Add RetinaFace folder to Python import path
 sys.path.insert(0, str(RETINAFACE_DIR))
 
+# Import RetinaFace modules
 from config import get_config
 from models import RetinaFace
 from layers import PriorBox
 from utils.box_utils import decode, decode_landmarks, nms
 
+# Select CPU or GPU
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-DEVICE = torch.device( "cuda" if torch.cuda.is_available() else "cpu" )
+# Model file paths
+WEIGHTS = RETINAFACE_DIR / "weights" / "retinaface_r34.pth"
 
-WEIGHTS = Path("C:/Users/LENOVO/Desktop/POC-Copy1/TALKFEVER/retinaface-pytorch/weights/retinaface_r34.pth")
-SFACE_MODEL = Path("C:/Users/LENOVO/Desktop/POC-Copy1/TALKFEVER/Sface/face_recognition_sface_2021dec.onnx")
+SFACE_MODEL = ROOT / "Sface" / "face_recognition_sface_2021dec.onnx"
+
 
 
 def load_models():
